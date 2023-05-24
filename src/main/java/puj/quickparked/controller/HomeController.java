@@ -1,4 +1,4 @@
-package io.bootify.my_app.controller;
+package puj.quickparked.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
