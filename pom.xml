@@ -15,6 +15,7 @@
 	<description>Proyecto - QuickParked</description>
 	<properties>
 		<java.version>16</java.version>
+		<maven.compiler.target>16</maven.compiler.target>
 	</properties>
 	<dependencies>
 		<dependency>
