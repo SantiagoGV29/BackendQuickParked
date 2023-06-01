@@ -37,7 +37,7 @@ public class ParqueaderoResource {
         return ResponseEntity.ok(parqueaderoService.get(id));
     }
     @GetMapping("/Owns/{id}")
-    public ResponseEntity<List<ParqueaderoDTO>> getParqueaderoByOwner(@PathVariable final Integer id) {
+    public ResponseEntity<List<ParqueaderoDTO>> getParqueaderoByOwner(@PathVariable final long id) {
         return ResponseEntity.ok(parqueaderoService.findbyOwner(id));
     }
 
