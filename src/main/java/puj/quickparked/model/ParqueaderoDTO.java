@@ -13,7 +13,7 @@ public class ParqueaderoDTO {
     private Integer id;
 
     @NotNull
-    private Integer nombre;
+    private String nombre;
 
     @NotNull
     @Size(max = 255)

@@ -31,7 +31,7 @@ public class Parqueadero {
     private Integer id;
 
     @Column(nullable = false)
-    private Integer nombre;
+    private String nombre;
 
     @Column(nullable = false)
     private String nit;
