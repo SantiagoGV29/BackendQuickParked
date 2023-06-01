@@ -10,6 +10,6 @@ import java.util.List;
 
 @Repository
 public interface ParqueaderoRepository extends JpaRepository<Parqueadero, Integer> {
-    @Query(value = "SELECT p FROM Parqueadero as p WHERE p.usuarioPropietario =  :id")
+    @Query(value = "SELECT * FROM parqueadero as p WHERE p.UsuarioPropietarioId = :id", nativeQuery = true)
     List<Parqueadero> findAllByUsuarioPropietarioId(long id);
 }
