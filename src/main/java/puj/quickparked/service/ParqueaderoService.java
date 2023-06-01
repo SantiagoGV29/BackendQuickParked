@@ -27,7 +27,7 @@ public class ParqueaderoService {
     }
 
     public List<Parqueadero> findbyOwner(long id) {
-        return this.parqueaderoRepository.findAllByUsuarioPropietarioId(id);
+        return this.parqueaderoRepository.obtenerPorPropietario(id);
     }
 
     public List<ParqueaderoDTO> findAll() {
