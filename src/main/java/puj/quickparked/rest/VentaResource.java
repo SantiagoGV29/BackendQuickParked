@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import puj.quickparked.webSocket.webSocketPagos;
 
 
 @RestController
@@ -74,9 +75,11 @@ public class VentaResource {
     }
 
     @GetMapping("/confirmarVenta/{placa}/{monto}")
-    public ResponseEntity<String> confirmarVenta(@PathVariable ("placa") String placa, @PathVariable Double monto) {
+    public ResponseEntity<String> confirmarVenta(@PathVariable ("placa") String placa, @PathVariable Double monto, @RequestBody RespuestaCobroDTO respuestaCobroDTO){
         try {
             final String vueltas = ventaService.confirmarVenta(placa, monto);
+            long idParqueadero = ventaService.buscarParqueaderoPorPlaca(placa);
+            webSocketPagos.enviarActualizacion(respuestaCobroDTO,idParqueadero);
             return new ResponseEntity<>(vueltas.toString(), HttpStatus.OK);
         } catch (Exception errorMessage) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.getMessage());

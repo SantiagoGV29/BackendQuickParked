@@ -36,6 +36,10 @@ public class ParqueaderoResource {
     public ResponseEntity<ParqueaderoDTO> getParqueadero(@PathVariable final Integer id) {
         return ResponseEntity.ok(parqueaderoService.get(id));
     }
+    @GetMapping("/Owns/{id}")
+    public ResponseEntity<List<ParqueaderoDTO>> getParqueaderoByOwner(@PathVariable final Integer id) {
+        return ResponseEntity.ok(parqueaderoService.findbyOwner(id));
+    }
 
     @PostMapping
     public ResponseEntity<Integer> createParqueadero(

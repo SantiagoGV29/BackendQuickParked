@@ -139,6 +139,9 @@ public class VentaService {
             throw new RuntimeException("El vehiculo con placa " + placa + " no fue encontrado.");
         }
     }
+    public long buscarParqueaderoPorPlaca(String placa) {
+         return registroParqueaderoRepository.findByPlacaAndEstacionado(placa).getSedeParqueadero().getId();
+    }
 
     public String confirmarVenta(String placa, Double monto) {
         Vehiculo vehiculo = vehiculoRepository.findByPlaca(placa);

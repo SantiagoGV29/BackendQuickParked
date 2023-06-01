@@ -6,7 +6,9 @@ import puj.quickparked.model.ParqueaderoDTO;
 import puj.quickparked.repos.ParqueaderoRepository;
 import puj.quickparked.repos.UsuarioRepository;
 import puj.quickparked.util.NotFoundException;
+
 import java.util.List;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,18 @@ public class ParqueaderoService {
     private final ParqueaderoRepository parqueaderoRepository;
     private final UsuarioRepository usuarioRepository;
 
+
     public ParqueaderoService(final ParqueaderoRepository parqueaderoRepository,
-            final UsuarioRepository usuarioRepository) {
+                              final UsuarioRepository usuarioRepository) {
         this.parqueaderoRepository = parqueaderoRepository;
         this.usuarioRepository = usuarioRepository;
+    }
+
+    public List<ParqueaderoDTO> findbyOwner(long id) {
+        List<Parqueadero> parqueadero = this.parqueaderoRepository.findAllByUsuarioPropietarioId(id);
+        return parqueadero.stream()
+                .map((parqueadero1) -> mapToDTO(parqueadero1, new ParqueaderoDTO()))
+                .toList();
     }
 
     public List<ParqueaderoDTO> findAll() {
@@ -54,7 +64,7 @@ public class ParqueaderoService {
     }
 
     private ParqueaderoDTO mapToDTO(final Parqueadero parqueadero,
-            final ParqueaderoDTO parqueaderoDTO) {
+                                    final ParqueaderoDTO parqueaderoDTO) {
         parqueaderoDTO.setId(parqueadero.getId());
         parqueaderoDTO.setNombre(parqueadero.getNombre());
         parqueaderoDTO.setNit(parqueadero.getNit());
@@ -63,7 +73,7 @@ public class ParqueaderoService {
     }
 
     private Parqueadero mapToEntity(final ParqueaderoDTO parqueaderoDTO,
-            final Parqueadero parqueadero) {
+                                    final Parqueadero parqueadero) {
         parqueadero.setNombre(parqueaderoDTO.getNombre());
         parqueadero.setNit(parqueaderoDTO.getNit());
         final Usuario usuarioPropietario = parqueaderoDTO.getUsuarioPropietario() == null ? null : usuarioRepository.findById(parqueaderoDTO.getUsuarioPropietario())
