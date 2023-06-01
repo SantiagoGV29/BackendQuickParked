@@ -57,6 +57,12 @@ public class SedeParqueadero {
     @Column
     private String direccion;
 
+    @Column
+    private Integer cupoOcupadoMoto;
+
+    @Column
+    private Integer cupoMoto;
+
     @Column(columnDefinition = "text")
     private String imagen;
 

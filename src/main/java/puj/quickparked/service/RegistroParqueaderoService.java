@@ -130,7 +130,11 @@ public class RegistroParqueaderoService {
                         registroParqueaderoRepository.save(registroParqueadero);
                         // Actualización del cupo restante.
                         SedeParqueadero sedeParqueadero = usuarioTrabajador.getSedeParqueadero();
-                        sedeParqueadero.setCupoOcupado(sedeParqueadero.getCupoOcupado() + 1);
+                        if (registroParqueadero.getVehiculo().getTipoVehiculo().getTipo().equals("Moto")) {
+                            sedeParqueadero.setCupoOcupadoMoto(sedeParqueadero.getCupoOcupadoMoto() + 1);
+                        } else {
+                            sedeParqueadero.setCupoOcupado(sedeParqueadero.getCupoOcupado() + 1);
+                        }
                         sedeParqueaderoRepository.save(sedeParqueadero);
                         return slot;
                     } else {
@@ -163,14 +167,20 @@ public class RegistroParqueaderoService {
                     registroParqueadero.setVehiculo(vehiculo);
                     registroParqueadero.setHoraReserva(LocalDateTime.now());
                     registroParqueadero.setSedeParqueadero(sedeParqueadero);
-                    Integer slot = registroParqueaderoRepository.getSlotDisponible(sedeParqueaderoId);
-                    registroParqueadero.setSlot(slot.toString());
-                    sedeParqueadero.setCupoOcupado(sedeParqueadero.getCupoOcupado() + 1);
-                    registroParqueaderoRepository.save(registroParqueadero);
-                    if (slot != null) {
+                    Integer slot = null;
+                    if (registroParqueadero.getVehiculo().getTipoVehiculo().getTipo().equals("Moto")) {
+                        sedeParqueadero.setCupoOcupadoMoto(sedeParqueadero.getCupoOcupadoMoto() + 1);
+                        slot = sedeParqueadero.getCupoOcupadoMoto() < sedeParqueadero.getCupoMoto() ? sedeParqueadero.getCupoOcupadoMoto() : -1;
+                    } else {
+                        sedeParqueadero.setCupoOcupado(sedeParqueadero.getCupoOcupado() + 1);
+                        slot = sedeParqueadero.getCupoOcupado() < sedeParqueadero.getCupo() ? sedeParqueadero.getCupoOcupado() : -1;
+                    }
+                    if (slot != -1) {
+                        registroParqueadero.setSlot(slot.toString());
+                        registroParqueaderoRepository.save(registroParqueadero);
                         return slot;
                     } else {
-                        throw new RuntimeException("No se encontró un slot disponible para el parqueadero " + sedeParqueadero.getNombreSede());
+                        throw new RuntimeException("No se encontró un slot disponible para el parqueadero " + sedeParqueadero.getNombreSede() + " y el tipo de vehiculo " + vehiculo.getTipoVehiculo().getTipo());
                     }
                 } else {
                     throw new RuntimeException("El vehículo ya cuenta con una reserva o está estacionado en una sede..");

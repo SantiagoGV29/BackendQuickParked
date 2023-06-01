@@ -41,4 +41,8 @@ public class SedeParqueaderoDTO {
     private Double tarifaMoto;
 
     private Integer calificacion;
+
+    private Integer cupoOcupadoMoto;
+
+    private Integer cupoMoto;
 }

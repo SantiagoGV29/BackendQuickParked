@@ -156,7 +156,11 @@ public class VentaService {
                         registroParqueadero.setEstadoRegistroParqueadero(estadoRegistroParqueadero);
                         estadoRegistroParqueaderoRepository.save(estadoRegistroParqueadero);
                         SedeParqueadero sedeParqueadero = registroParqueadero.getSedeParqueadero();
-                        sedeParqueadero.setCupoOcupado(sedeParqueadero.getCupoOcupado() - 1);
+                        if (registroParqueadero.getVehiculo().getTipoVehiculo().getTipo().equals("Moto")) {
+                            sedeParqueadero.setCupoOcupadoMoto(sedeParqueadero.getCupoOcupadoMoto() - 1);
+                        } else {
+                            sedeParqueadero.setCupoOcupado(sedeParqueadero.getCupoOcupado() - 1);
+                        }
                         sedeParqueaderoRepository.save(sedeParqueadero);
                         venta.setFechaPago(LocalDateTime.now());
                         ventaRepository.save(venta);
