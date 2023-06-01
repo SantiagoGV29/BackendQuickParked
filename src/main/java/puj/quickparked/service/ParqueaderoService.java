@@ -26,11 +26,8 @@ public class ParqueaderoService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public List<ParqueaderoDTO> findbyOwner(long id) {
-        List<Parqueadero> parqueadero = this.parqueaderoRepository.findAllByUsuarioPropietarioId(id);
-        return parqueadero.stream()
-                .map((parqueadero1) -> mapToDTO(parqueadero1, new ParqueaderoDTO()))
-                .toList();
+    public List<Parqueadero> findbyOwner(long id) {
+        return this.parqueaderoRepository.findAllByUsuarioPropietarioId(id);
     }
 
     public List<ParqueaderoDTO> findAll() {

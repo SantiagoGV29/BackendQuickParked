@@ -1,5 +1,6 @@
 package puj.quickparked.rest;
 
+import puj.quickparked.domain.Parqueadero;
 import puj.quickparked.model.ParqueaderoDTO;
 import puj.quickparked.service.ParqueaderoService;
 import jakarta.validation.Valid;
@@ -37,7 +38,7 @@ public class ParqueaderoResource {
         return ResponseEntity.ok(parqueaderoService.get(id));
     }
     @GetMapping("/Owns/{id}")
-    public ResponseEntity<List<ParqueaderoDTO>> getParqueaderoByOwner(@PathVariable final long id) {
+    public ResponseEntity<List<Parqueadero>> getParqueaderoByOwner(@PathVariable final long id) {
         return ResponseEntity.ok(parqueaderoService.findbyOwner(id));
     }
 
