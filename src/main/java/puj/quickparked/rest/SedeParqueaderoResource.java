@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import puj.quickparked.webSocket.WebSocketHandler;
 
 
 @RestController
@@ -48,6 +49,7 @@ public class SedeParqueaderoResource {
     public ResponseEntity<Void> updateSedeParqueadero(@PathVariable final Integer id,
             @RequestBody @Valid final SedeParqueaderoDTO sedeParqueaderoDTO) {
         sedeParqueaderoService.update(id, sedeParqueaderoDTO);
+        WebSocketHandler.enviarActualizacion(sedeParqueaderoDTO);
         return ResponseEntity.ok().build();
     }
 
@@ -61,5 +63,7 @@ public class SedeParqueaderoResource {
     public ResponseEntity<List<SedeParqueaderoDTO>> getSedeParqueaderoByPropietarioId(@PathVariable final Integer id) {
         return ResponseEntity.ok(sedeParqueaderoService.getByPropietarioId(id));
     }
+
+
 
 }
