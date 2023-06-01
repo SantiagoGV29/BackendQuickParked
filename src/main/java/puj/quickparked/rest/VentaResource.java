@@ -1,5 +1,7 @@
 package puj.quickparked.rest;
 
+import puj.quickparked.model.IngresoVehiculoDTO;
+import puj.quickparked.model.RespuestaCobroDTO;
 import puj.quickparked.model.VentaDTO;
 import puj.quickparked.service.VentaService;
 import jakarta.validation.Valid;
@@ -54,6 +56,26 @@ public class VentaResource {
     public ResponseEntity<Void> deleteVenta(@PathVariable final Integer id) {
         ventaService.delete(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/cobrar/{placa}")
+    public ResponseEntity<?> cobrar(@PathVariable ("placa") String placa) {
+        try {
+            final RespuestaCobroDTO respuesta = ventaService.cobrar(placa);
+            return new ResponseEntity<>(respuesta, HttpStatus.OK);
+        } catch (Exception errorMessage) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.getMessage());
+        }
+    }
+
+    @GetMapping("/confirmarVenta/{placa}/{monto}")
+    public ResponseEntity<String> confirmarVenta(@PathVariable ("placa") String placa, @PathVariable Double monto) {
+        try {
+            final String vueltas = ventaService.confirmarVenta(placa, monto);
+            return new ResponseEntity<>(vueltas.toString(), HttpStatus.OK);
+        } catch (Exception errorMessage) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorMessage.getMessage());
+        }
     }
 
 }
