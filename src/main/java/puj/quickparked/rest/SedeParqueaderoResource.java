@@ -63,5 +63,5 @@ public class SedeParqueaderoResource {
     public ResponseEntity<List<SedeParqueaderoDTO>> getSedeParqueaderoByPropietarioId(@PathVariable final Integer id) {
         return ResponseEntity.ok(sedeParqueaderoService.getByPropietarioId(id));
     }
-    
+
 }

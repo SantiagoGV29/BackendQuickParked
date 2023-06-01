@@ -1,15 +1,7 @@
 package puj.quickparked.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.SequenceGenerator;
+import jakarta.persistence.*;
+
 import java.util.Set;
 import lombok.Getter;
 import lombok.Setter;
@@ -62,7 +54,7 @@ public class Usuario {
     @JoinColumn(name = "tipoUsuarioId", nullable = false)
     private TipoUsuario tipoUsuario;
 
-    @OneToMany(mappedBy = "usuario")
-    private Set<Vehiculo> usuarioVehiculos;
+    @OneToOne(mappedBy = "usuario")
+    private Vehiculo vehiculo;
 
 }

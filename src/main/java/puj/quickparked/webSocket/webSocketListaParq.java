@@ -13,7 +13,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-public class webSocketListaParq extends TextWebSocketHandler {
+public class    webSocketListaParq extends TextWebSocketHandler {
     private static final Set<WebSocketSession> sessions = new HashSet<>();
     private static final Map<Long, WebSocketSession> parkingSessions = new HashMap<>();
     private static final Set<Object> objetosCola = new HashSet<>();

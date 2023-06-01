@@ -77,8 +77,8 @@ public class VentaResource {
     @GetMapping("/confirmarVenta/{placa}/{monto}")
     public ResponseEntity<String> confirmarVenta(@PathVariable ("placa") String placa, @PathVariable Double monto, @RequestBody RespuestaCobroDTO respuestaCobroDTO){
         try {
-            final String vueltas = ventaService.confirmarVenta(placa, monto);
             long idParqueadero = ventaService.buscarParqueaderoPorPlaca(placa);
+            final String vueltas = ventaService.confirmarVenta(placa, monto);
             webSocketPagos.enviarActualizacion(respuestaCobroDTO,idParqueadero);
             return new ResponseEntity<>(vueltas.toString(), HttpStatus.OK);
         } catch (Exception errorMessage) {

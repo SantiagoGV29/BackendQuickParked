@@ -74,6 +74,8 @@ public class UsuarioService {
         usuarioDTO.setId(usuario.getId());
         usuarioDTO.setUsername(usuario.getUsername());
         usuarioDTO.setPassword(usuario.getPassword());
+        usuarioDTO.setNombres(usuario.getNombres());
+        usuarioDTO.setApellidos(usuario.getApellidos());
         usuarioDTO.setEmail(usuario.getEmail());
         usuarioDTO.setTelefono(usuario.getTelefono());
         usuarioDTO.setSedeParqueadero(usuario.getSedeParqueadero() == null ? null : usuario.getSedeParqueadero().getId());

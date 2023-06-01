@@ -31,6 +31,8 @@ public class SedeParqueaderoDTO {
 
     private String imagen;
 
+    private String direccion;
+
     @NotNull
     private Integer parqueadero;
 
