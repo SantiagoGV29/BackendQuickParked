@@ -18,5 +18,6 @@ public class webSocketController implements WebSocketConfigurer {
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(new WebSocketHandler(), "/ParquederosRT").setAllowedOrigins("*");
         registry.addHandler(new webSocketPagos(), "/PagosRT").setAllowedOrigins("*");
+        registry.addHandler(new webSocketListaParq(), "/ListaParqRT").setAllowedOrigins("*");
     }
 }

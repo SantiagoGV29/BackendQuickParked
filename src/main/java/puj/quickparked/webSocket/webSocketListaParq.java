@@ -18,7 +18,7 @@ public class    webSocketListaParq extends TextWebSocketHandler {
     private static final Map<Long, WebSocketSession> parkingSessions = new HashMap<>();
     private static final Set<Object> objetosCola = new HashSet<>();
     private static final Gson gson = new Gson();
-/*
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         sessions.add(session);
@@ -31,7 +31,7 @@ public class    webSocketListaParq extends TextWebSocketHandler {
         }
         System.out.println("Nueva conexión: " + session.getId());
     }
-*/
+
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         super.handleTextMessage(session, message);
@@ -48,7 +48,7 @@ public class    webSocketListaParq extends TextWebSocketHandler {
         sessions.remove(session);
     }
 
-    public static void enviarActualizacion(Object objeto, Long parqueaderoId) {
+    public static void enviarActualizacion(Object objeto) {
         String json;
         try {
             if (sessions.isEmpty()) {
@@ -56,11 +56,9 @@ public class    webSocketListaParq extends TextWebSocketHandler {
                 objetosCola.add(objeto);
                 return;
             }
-            if (parkingSessions.containsKey(parqueaderoId)) {
-                WebSocketSession session = parkingSessions.get(parqueaderoId);
-                json = gson.toJson(objeto);
+            json = gson.toJson(objeto);
+            for (WebSocketSession session : sessions) {
                 session.sendMessage(new TextMessage(json));
-                return;
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());

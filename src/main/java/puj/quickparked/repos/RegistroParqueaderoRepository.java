@@ -5,6 +5,8 @@ import puj.quickparked.domain.RegistroParqueadero;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 
 @Repository
 public interface RegistroParqueaderoRepository extends JpaRepository<RegistroParqueadero, Integer> {
@@ -25,4 +27,9 @@ public interface RegistroParqueaderoRepository extends JpaRepository<RegistroPar
     @Query("SELECT r FROM RegistroParqueadero r WHERE r.vehiculo.placa = :placa " +
             "AND r.estadoRegistroParqueadero.id = (SELECT er.id FROM EstadoRegistroParqueadero er WHERE er.estado = 'Reservado')")
     RegistroParqueadero findByPlacaAndReservado(String placa);
+
+    @Query("SELECT r FROM RegistroParqueadero r " +
+            "WHERE r.sedeParqueadero.id = :sedeParqueaderoId " +
+            "AND r.estadoRegistroParqueadero.id = (SELECT er.id FROM EstadoRegistroParqueadero er WHERE er.estado = 'Estacionado')")
+    List<RegistroParqueadero> findBySedeParqueaderoIdAndParqueados(Integer sedeParqueaderoId);
 }

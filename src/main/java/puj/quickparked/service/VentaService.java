@@ -1,6 +1,7 @@
 package puj.quickparked.service;
 
 import puj.quickparked.domain.*;
+import puj.quickparked.model.RegistroParqueaderoDTO;
 import puj.quickparked.model.RespuestaCobroDTO;
 import puj.quickparked.model.VentaDTO;
 import puj.quickparked.repos.*;
@@ -13,6 +14,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import puj.quickparked.webSocket.webSocketListaParq;
 
 
 @Service
@@ -22,14 +24,16 @@ public class VentaService {
     private final VehiculoRepository vehiculoRepository;
     private final EstadoRegistroParqueaderoRepository estadoRegistroParqueaderoRepository;
     private final SedeParqueaderoRepository sedeParqueaderoRepository;
+    private final RegistroParqueaderoService registroParqueaderoService;
 
     public VentaService(final VentaRepository ventaRepository,
-                        final RegistroParqueaderoRepository registroParqueaderoRepository, VehiculoRepository vehiculoRepository, EstadoRegistroParqueaderoRepository estadoRegistroParqueaderoRepository, SedeParqueaderoRepository sedeParqueaderoRepository) {
+                        final RegistroParqueaderoRepository registroParqueaderoRepository, VehiculoRepository vehiculoRepository, EstadoRegistroParqueaderoRepository estadoRegistroParqueaderoRepository, SedeParqueaderoRepository sedeParqueaderoRepository, RegistroParqueaderoService registroParqueaderoService) {
         this.ventaRepository = ventaRepository;
         this.registroParqueaderoRepository = registroParqueaderoRepository;
         this.vehiculoRepository = vehiculoRepository;
         this.estadoRegistroParqueaderoRepository = estadoRegistroParqueaderoRepository;
         this.sedeParqueaderoRepository = sedeParqueaderoRepository;
+        this.registroParqueaderoService = registroParqueaderoService;
     }
 
     public List<VentaDTO> findAll() {
@@ -164,6 +168,14 @@ public class VentaService {
                         sedeParqueaderoRepository.save(sedeParqueadero);
                         venta.setFechaPago(LocalDateTime.now());
                         ventaRepository.save(venta);
+                        // Envío por el Web Socket.
+                        List <RegistroParqueaderoDTO> respuestaObj = new ArrayList<>();
+                        for (RegistroParqueadero reg : registroParqueaderoRepository.findBySedeParqueaderoIdAndParqueados(sedeParqueadero.getId())) {
+                            RegistroParqueaderoDTO registroParqueaderoDTO = new RegistroParqueaderoDTO();
+                            registroParqueaderoService.mapToDTO(reg, registroParqueaderoDTO);
+                            respuestaObj.add(registroParqueaderoDTO);
+                        }
+                        webSocketListaParq.enviarActualizacion(respuestaObj);
                         return vueltas.toString();
                     } else {
                         return "El valor ingresado no es suficiente para pagar. Pago requerido: $" + venta.getMonto().toString();

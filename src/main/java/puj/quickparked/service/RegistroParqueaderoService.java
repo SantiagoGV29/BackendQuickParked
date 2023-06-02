@@ -70,7 +70,7 @@ public class RegistroParqueaderoService {
         registroParqueaderoRepository.deleteById(id);
     }
 
-    private RegistroParqueaderoDTO mapToDTO(final RegistroParqueadero registroParqueadero,
+    public RegistroParqueaderoDTO mapToDTO(final RegistroParqueadero registroParqueadero,
                                             final RegistroParqueaderoDTO registroParqueaderoDTO) {
         registroParqueaderoDTO.setId(registroParqueadero.getId());
         registroParqueaderoDTO.setHoraEntrada(registroParqueadero.getHoraEntrada());
@@ -84,7 +84,7 @@ public class RegistroParqueaderoService {
         return registroParqueaderoDTO;
     }
 
-    private RegistroParqueadero mapToEntity(final RegistroParqueaderoDTO registroParqueaderoDTO,
+    public RegistroParqueadero mapToEntity(final RegistroParqueaderoDTO registroParqueaderoDTO,
                                             final RegistroParqueadero registroParqueadero) {
         registroParqueadero.setHoraEntrada(registroParqueaderoDTO.getHoraEntrada());
         registroParqueadero.setHoraSalida(registroParqueaderoDTO.getHoraSalida());
